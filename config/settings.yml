@@ -1,6 +1,6 @@
 production:
   website: http://diamondresidential.codeifier.com
-  image_directory: /home/deployment/sites/diamondresidential/wp-content/uploads
+  image_directory: /var/www/diamond-residential/wp-content/uploads
   portals:
     zoopla:
       username: diamond
