@@ -14,8 +14,8 @@ production:
       url: ftp.primelocation.com
 
 development:
-  website: http://diamondresidential.local
-  image_directory: /tmp
+  website: http://local.diamondresidential.co.uk
+  image_directory: /var/www/diamond-residential/wp-content/uploads
   portals:
     zoopla:
       username: diamond

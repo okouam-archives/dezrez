@@ -22,7 +22,7 @@ class PropertyParser
       property.display_address = root.xpath('useAddress').text
       property.summary = root.xpath('summaryDescription').text
       period = root['rentalperiod'].to_i
-      if (period == 0 || period == 1)
+      if period == 0 || period == 1
         property.trans_type_id = 1
       else
         property.trans_type_id = 2
