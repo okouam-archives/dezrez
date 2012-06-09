@@ -22,11 +22,11 @@ class App < Thor
   def wordpress(env)
     settings = configure(env)
     @logger.info(settings)
-    propertiesSales = Subscriber.new.pull(settings["image_directory"], 1)
-    propertiesLettings = Subscriber.new.pull(settings["image_directory"], 6)
-    Post.clear_existing_listings
-    Post.generate(propertiesSales, settings["website"])
-    Post.generate(propertiesLettings, settings["website"])
+    Subscriber.reset
+    property_sales = Subscriber.new.pull(settings["image_directory"], 1)
+    property_lettings = Subscriber.new.pull(settings["image_directory"], 6)
+    Post.generate(property_sales, settings["website"])
+    Post.generate(property_lettings, settings["website"])
   end
 
   desc "portals ENV", "Transfers the dezrez properties to Zoopla and FindAProperty"

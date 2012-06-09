@@ -3,10 +3,6 @@ class Post < ActiveRecord::Base
   has_many :post_meta, :class_name => "PostMeta", :dependent => :destroy
   has_many :tags
 
-  def self.clear_existing_listings
-    Post.delete_all("post_type = 'listing'")
-  end
-
   def self.generate(properties, website)
     properties.each do |property|
       post = Post.new
@@ -91,7 +87,7 @@ class Post < ActiveRecord::Base
             {meta_key: 'address_2_value', meta_value: property.address_2},
             {meta_key: 'postcode_value', meta_value: property.postcode},
             {meta_key: 'slideshow_value', meta_value: property.featured ? 'Yes' : 'No'},
-            {meta_key: 'rob_value', meta_value: 'Rent'},
+            {meta_key: 'rob_value', meta_value: buyorrent(property.trans_type_id)},
             {meta_key: 'streetview_value', meta_value: 'Yes'},
             {meta_key: 'toolong_value', meta_value: 'No'},
             {meta_key: 'location_level1_value', meta_value: Property.locate(property.location)},
@@ -103,9 +99,8 @@ class Post < ActiveRecord::Base
     end
   end
   
-  
   def buyorrent(value)
-    if value == "1"
+    if value == 1
       "Buy"
     else
       "Rent"

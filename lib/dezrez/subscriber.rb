@@ -17,11 +17,9 @@ class Subscriber
     @logger.add_appenders('stdout', 'logfile')
   end
 
-  def reset
-    Property.delete_all
-    Photo.delete_all
+  def self.reset
     Post.delete_all("post_type = 'listing'")
-    Post.delete_all("post_parent != 0 AND post_parent NOT IN (select id FROM wp_posts)")
+    #Post.delete_all("post_parent != 0 AND post_parent NOT IN (select id FROM wp_posts)")
     Post.connection.execute("DELETE FROM wp_postmeta WHERE post_id NOT IN (select id FROM wp_posts)")
   end
 
