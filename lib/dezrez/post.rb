@@ -17,7 +17,7 @@ class Post < ActiveRecord::Base
       post.save!
       post.reload
       post.associate_taxonomy(property.location, 'property_location')
-      post.associate_taxonomy('#{buyorrent(property.trans_type_id)}', 'property_buyorrent')
+      post.associate_taxonomy("#{post.buyorrent(property.trans_type_id)}", 'property_buyorrent')
       post.associate_price_range(property.price)
       property.photos.each do |photo|
           attachment = Post.new
@@ -51,6 +51,8 @@ class Post < ActiveRecord::Base
       if price > boundaries[0].to_i && price < boundaries[1].to_i
         sql = "INSERT INTO wp_term_relationships (object_id, term_taxonomy_id) VALUES (#{self.id}, #{row["term_taxonomy_id"]})"
         self.connection.execute(sql)
+        sql = "UPDATE wp_term_taxonomy SET wp_term_taxonomy.count = wp_term_taxonomy.count + 1 where term_taxonomy_id = #{row["term_taxonomy_id"]} "
+        self.connection.execute(sql)
       end
     end
   end
@@ -65,8 +67,11 @@ class Post < ActiveRecord::Base
               WHERE name = '#{key}' AND taxonomy = '#{category}'
     }
     taxonomy_id =  self.connection.select_value(sql)
+    puts "#{key}, #{category}, #{taxonomy_id}"
     if taxonomy_id
       sql = "INSERT INTO wp_term_relationships (object_id, term_taxonomy_id) VALUES (#{self.id}, #{taxonomy_id})"
+      self.connection.execute(sql)
+      sql = "UPDATE wp_term_taxonomy SET wp_term_taxonomy.count = wp_term_taxonomy.count + 1 where term_taxonomy_id = #{taxonomy_id} "
       self.connection.execute(sql)
     end
   end
