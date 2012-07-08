@@ -112,7 +112,7 @@ class Property
     else
       contents = "#{branch_id}_#{id}^#{house_number}^#{address_1} #{address_2.to_s}^^^#{Property.locate(location)}^#{postcode_1}^"
     end
-    contents = contents + "#{postcode_2}^#{feature_subset}^#{summary}^#{description}^"
+    contents = contents + "#{postcode_2}^#{feature_subset}^#{summary.sub(/\r\n/, " ").sub(/\r/, " ")}^#{description.sub(/\r\n/, " ").sub(/\r/, " ")}^"
     contents = contents + "#{branch_id}^0^#{bedrooms}^#{bathrooms}^#{price}^^#{prop_sub_id}^^^#{display_address}^1^^^^^0^^#{trans_type_id}^^"
     contents + "#{photo_subset}^^^^^~\r\n"
   end
