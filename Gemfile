@@ -1,5 +1,6 @@
 source "http://rubygems.org"
 
+gem 'mechanize'
 gem 'activesupport'
 gem 'ruby-debug19', :require => 'ruby-debug'
 gem 'httparty'
